@@ -18,13 +18,17 @@ def main():
         'Forest_and_Carbon.csv',
         'Land_Cover_Accounts.csv'
     ]
+    # Load countries data first
     countries_data = load_countries()
 
     countries = [['ISO_Code', 'Display_Name', 'ISO', 'ISO3', 'FIPS', 'Region Name', 'Country_Status', 'Developed / Developing Countries', 'Population']]
-    iso3_to_iso_code = {}  
+    #Map ISO3 to ISO_Code
+    iso3_to_iso_code = {} 
+    #Start ISO_Code from 895 wich is highest ISO_Code in countries 
     iso_code_counter = 895
     for row in countries_data:
         countries.append([row[2], row[4], row[0], row[1], row[3], row[12], row[17], row[18], row[23]])
+        # Save ISO_Code for this ISO3 else assign new ISO_Code 'counter'
         iso3_to_iso_code[row[1]] = row[2] if row[2] else str(iso_code_counter)
         if not row[2]:  # If ISO_Code is empty
             iso_code_counter += 1
@@ -42,15 +46,18 @@ def main():
                 iso_code = iso3_to_iso_code.get(iso3, '')  
                 if not iso_code:  # If ISO_Code is empty
                     iso_code = str(iso_code_counter)
-                    iso3_to_iso_code[iso3] = iso_code  # Save the new ISO_Code for this ISO3
+                    iso3_to_iso_code[iso3] = iso_code  # Save new ISO_Code for this ISO3
                     countries.append([iso_code, row[1], '', iso3, '', '', '', '', ''])  # Add new country to countries list
                     iso_code_counter += 1
+                # Get indicators data
                 indicators_name = row[4]  
                 unit = row[5] 
+                # Climate influence is only available in Land_Cover_Accounts.csv
                 climate_influence = row[10] if csv_file == 'Land_Cover_Accounts.csv' else '' 
                 indicators_id = len(indicators)  
                 indicators_row = [indicators_id, iso_code, indicators_name, unit, climate_influence] 
                 years_data = {}
+                # Get measurements data
                 for i in range(10, len(header)):  # Columns F1961 - F2022
                     year = header[i]
                     value = row[i] if row[i] != '' else None

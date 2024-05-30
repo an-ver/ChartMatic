@@ -21,6 +21,7 @@ def generate_bar_chart(country_names, indicator_names, aggr_value, start_year, e
                                            var_name='Year', 
                                            value_name='Event Value')
 
+    # Convert the 'Year' to int
     measurements_df['Year'] = measurements_df['Year'].str[1:].astype(int)
 
     aggr_value = int(aggr_value)
@@ -32,6 +33,7 @@ def generate_bar_chart(country_names, indicator_names, aggr_value, start_year, e
     index = 0
     all_years = [] 
     unique_years = np.sort(measurements_df['Year'].unique())
+    # Create array of bar positions
     bar_positions = np.arange(len(unique_years))
     
 
