@@ -56,3 +56,8 @@
     
     -python app.py
     -Go to localhost:5.000
+
+## Our team
+
+    Anastasia Varoucha - 4288
+    Katerina Papaxristopoulou - 4148
